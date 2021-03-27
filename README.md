@@ -22,3 +22,6 @@ Incorporating `gorilla/mux` and converting code to that
 
 ### Chapter 4
 Explaining how templating works in go, no code written by me
+
+### Chapter 5
+Explains MVC, no code written by me
