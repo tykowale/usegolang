@@ -2,8 +2,23 @@
 
 In this repo I'll be following along with the book
 
-### Running
+## Running
 
 ```bash
 go run main.go
 ```
+
+
+## Chapters
+
+### Chapter 1
+Explaining go, no code 
+
+### Chapter 2
+Basic set up and serving some HTML
+
+### Chapter 3
+Incorporating `gorilla/mux` and converting code to that
+
+### Chapter 4
+Explaining how templating works in go, no code written by me
