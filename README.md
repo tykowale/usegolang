@@ -25,3 +25,6 @@ Explaining how templating works in go, no code written by me
 
 ### Chapter 5
 Explains MVC, no code written by me
+
+### Chapter 6
+Created some views, incorporated bootstrap and simplified code a bi
