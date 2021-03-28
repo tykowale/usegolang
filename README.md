@@ -28,3 +28,6 @@ Explains MVC, no code written by me
 
 ### Chapter 6
 Created some views, incorporated bootstrap and simplified code a bi
+
+### Chapter 7
+Create a sign up page, handle post requests, clean up the code a little bit
