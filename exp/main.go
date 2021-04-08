@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
+	"lenslocked.com/models"
 )
 
 const (
@@ -14,47 +14,44 @@ const (
 	dbname   = "dev"
 )
 
-type User struct {
-	gorm.Model
-	Name  string
-	Email string `gorm:"not null;unique_index"`
-	Orders []Order
-}
-type Order struct {
-	gorm.Model
-	UserID      uint
-	Amount      int
-	Description string
-}
-
 func main() {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
-	db, err := gorm.Open("postgres", psqlInfo)
+
+	userService, err := models.NewUserService(psqlInfo)
+
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
-	db.LogMode(true)
-	db.AutoMigrate(&User{}, &Order{})
-	var user User
-	db.Preload("Orders").First(&user)
-	if db.Error != nil {
+	defer userService.Close()
+	userService.DestructiveReset()
+
+	user := models.User{
+		Name:  "Michael Scott",
+		Email: "michael@dundermifflin.com",
+	}
+
+	if err := userService.Create(&user); err != nil {
+		panic(err)
+	}
+	user.Name = "Updated Name"
+	if err := userService.Update(&user); err != nil {
 		panic(err)
 	}
 
-	fmt.Println("Email:", user.Email)
-	fmt.Println("Number of orders:", len(user.Orders))
-	fmt.Println("Orders:", user.Orders)
-}
-func createOrder(db *gorm.DB, user User, amount int, desc string) {
-	db.Create(&Order{
-		UserID:      user.ID,
-		Amount:      amount,
-		Description: desc,
-	})
-	if db.Error != nil {
-		panic(db.Error)
+	foundUser, err := userService.ByEmail("michael@dundermifflin.com")
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(foundUser)
+
+	if err := userService.Delete(foundUser.ID); err != nil {
+		panic(err)
+	}
+	_, err = userService.ByID(foundUser.ID)
+	if err != models.ErrNotFound {
+		panic("user was not deleted!")
 	}
 }

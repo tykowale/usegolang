@@ -1,13 +1,35 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
-	"lenslocked.com/controllers"
+	"fmt"
 	"net/http"
+
+	"lenslocked.com/controllers"
+	"lenslocked.com/models"
+
+	"github.com/gorilla/mux"
+)
+
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = "password"
+	dbname   = "dev"
 )
 
 func main() {
-	usersController := controllers.NewUsers()
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+
+	userService, err := models.NewUserService(psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	defer userService.Close()
+	userService.AutoMigrate()
+
+	usersController := controllers.NewUsers(userService)
 	staticController := controllers.NewStatic()
 
 	r := mux.NewRouter()

@@ -34,3 +34,6 @@ Create a sign up page, handle post requests, clean up the code a little bit
 
 ### Chapter 8
 Experimenting with GORM
+
+### Chapter 9
+Creating user model
