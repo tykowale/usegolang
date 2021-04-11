@@ -37,3 +37,6 @@ Experimenting with GORM
 
 ### Chapter 9
 Creating user model
+
+### Chapter 10
+Authentication 
