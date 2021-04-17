@@ -40,3 +40,6 @@ Creating user model
 
 ### Chapter 10
 Authentication 
+
+### Chapter 11
+Remembering users

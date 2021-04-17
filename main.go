@@ -41,6 +41,7 @@ func main() {
 	r.HandleFunc("/signup", usersController.Create).Methods("POST")
 	r.Handle("/login", usersController.LoginView).Methods("GET")
 	r.HandleFunc("/login", usersController.Login).Methods("POST")
+	r.HandleFunc("/cookietest", usersController.CookieTest).Methods("GET")
 	r.NotFoundHandler = http.Handler(staticController.NotFoundView)
 	http.ListenAndServe(":3000", r)
 }
